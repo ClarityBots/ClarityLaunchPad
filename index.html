@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ClarityLaunchPad</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <link rel="preload" as="image" href="images/picture1.svg">
   <style>
     html, body {
       margin: 0;
@@ -15,21 +16,40 @@
       color: white;
       overflow: hidden;
       background-color: #000;
+      position: relative;
     }
 
-    body::before {
-      content: "";
+    #background-wrapper {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, rgba(0,0,0,0.95) 85%),
-        url('images/picture1.svg') center center / cover no-repeat fixed;
-      opacity: 0;
-      animation: fadeInAll 2s ease-out forwards;
-      z-index: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100vw;
+      height: 100vh;
+      z-index: -3;
+      animation: fadeIn 2s ease-out forwards;
+    }
+
+    #background-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: url('images/picture1.svg') center center / contain no-repeat;
+      z-index: -2;
+    }
+
+    #white-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.25) 0%, rgba(0,0,0,0.95) 85%);
+      z-index: -3;
     }
 
     .overlay {
@@ -42,10 +62,11 @@
       z-index: 1;
       text-align: center;
       opacity: 0;
-      animation: fadeInAll 2s ease-out forwards;
+      animation: fadeIn 2s ease-out forwards;
     }
 
     .card {
+      position: relative;
       background: rgba(20, 34, 51, 0.6);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(12px);
@@ -53,6 +74,12 @@
       border-radius: 16px;
       padding: 2rem;
       max-width: 480px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.6);
     }
 
     h1 {
@@ -83,122 +110,31 @@
       background: #F04E23;
     }
 
-    @keyframes fadeInAll {
+    @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
   </style>
 </head>
 <body>
+  <div id="background-wrapper">
+    <div id="white-glow"></div>
+    <div id="background-image"></div>
+  </div>
+
   <div class="overlay">
-    <div class="card">
+    <div class="card" id="cardBox">
       <h1>ClarityBots®
-Launch Pad</h1>
+LaunchPad</h1>
       <p>Fueling your launch with clarity, speed, and style™.</p>
-      <button onclick="alert('Feature not implemented yet')">Get Started</button>
+      <button onclick="startOnboarding()">Get Started</button>
     </div>
   </div>
-</body>
-</html>
-<!-- index.html -->
-<!DOCTYPE html>
-<html lang="en" style="background-color: #000;">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ClarityLaunchPad</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Inter', sans-serif;
-      color: white;
-      overflow: hidden;
-      background-color: #000;
-    }
 
-    body::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: 
-        radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, rgba(0,0,0,0.95) 85%),
-        url('images/picture1.svg') center center / cover no-repeat fixed;
-      opacity: 0;
-      animation: fadeInAll 2s ease-out forwards;
-      z-index: 0;
+  <script>
+    function startOnboarding() {
+      alert("Welcome to ClarityLaunchPad! Let's begin your setup...");
     }
-
-    .overlay {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      z-index: 1;
-      text-align: center;
-      opacity: 0;
-      animation: fadeInAll 2s ease-out forwards;
-    }
-
-    .card {
-      background: rgba(20, 34, 51, 0.6);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 16px;
-      padding: 2rem;
-      max-width: 480px;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      white-space: pre-line;
-    }
-
-    p {
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-    }
-
-    button {
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      font-weight: 600;
-      color: white;
-      background: #FF7900;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      transition: background 0.3s ease;
-    }
-
-    button:hover {
-      background: #F04E23;
-    }
-
-    @keyframes fadeInAll {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-  </style>
-</head>
-<body>
-  <div class="overlay">
-    <div class="card">
-      <h1>ClarityBots®
-Launch Pad</h1>
-      <p>Fueling your launch with clarity, speed, and style™.</p>
-      <button onclick="alert('Feature not implemented yet')">Get Started</button>
-    </div>
-  </div>
+  </script>
 </body>
 </html>

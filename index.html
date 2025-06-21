@@ -7,39 +7,34 @@
   <title>ClarityLaunchPad</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   <style>
-    body {
+    html, body {
       margin: 0;
-      overflow-x: hidden;
+      padding: 0;
+      height: 100%;
       font-family: 'Inter', sans-serif;
       color: white;
-      background: rgb(5, 5, 20);
-    }
-
-    canvas#starfield {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -2;
+      overflow: hidden;
+      background: 
+        radial-gradient(circle at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.9) 100%),
+        url('images/picture1.svg') center center / cover no-repeat fixed;
     }
 
     .overlay {
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
-      text-align: center;
       z-index: 1;
-      position: relative;
+      text-align: center;
     }
 
     .card {
       background: rgba(20, 34, 51, 0.6);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-radius: 16px;
       padding: 2rem;
       max-width: 480px;
@@ -77,153 +72,18 @@
     }
 
     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    section#features {
-      padding: 6rem 2rem;
-      background: linear-gradient(180deg, rgba(5,5,20,0.8), rgba(5,5,20,1));
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3rem;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      max-width: 1000px;
-      width: 100%;
-    }
-
-    .feature-card {
-      background: rgba(20, 34, 51, 0.7);
-      border-radius: 16px;
-      padding: 2rem;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-      backdrop-filter: blur(12px);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.6);
-    }
-
-    .feature-card h3 {
-      margin-top: 0;
-      color: #FF7900;
-    }
-
-    .feature-card p {
-      margin-bottom: 0;
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <canvas id="starfield"></canvas>
-
   <div class="overlay">
     <div class="card">
       <h1>ClarityLaunchPad</h1>
       <p>Fueling your launch with clarity, speed, and style.</p>
-      <button onclick="scrollToFeatures()">Get Started</button>
+      <button onclick="alert('Feature not implemented yet')">Get Started</button>
     </div>
   </div>
-
-  <section id="features">
-    <div class="features-grid">
-      <div class="feature-card">
-        <h3>Fast Onboarding</h3>
-        <p>Launch your tools with streamlined, guided setup in minutes—not days.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Custom Branding</h3>
-        <p>Apply your company's look and feel instantly across all tools and views.</p>
-      </div>
-      <div class="feature-card">
-        <h3>AI-Powered Setup</h3>
-        <p>Intelligent defaults, smart suggestions, and effortless configuration.</p>
-      </div>
-    </div>
-  </section>
-
-  <script>
-    const canvas = document.getElementById('starfield');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    const numStars = 400;
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-
-    function initStars() {
-      stars = Array.from({ length: numStars }, () => ({
-        x: (Math.random() - 0.5) * canvas.width,
-        y: (Math.random() - 0.5) * canvas.height,
-        z: Math.random() * canvas.width
-      }));
-    }
-
-    function drawStars() {
-      ctx.fillStyle = 'rgb(5, 5, 20)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = 'white';
-      stars.forEach(star => {
-        let k = 128.0 / star.z;
-        let x = star.x * k + canvas.width / 2;
-        let y = star.y * k + canvas.height / 2;
-
-        if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {
-          const size = (1 - star.z / canvas.width) * 2.5;
-          ctx.beginPath();
-          ctx.arc(x, y, size, 0, 2 * Math.PI);
-          ctx.fill();
-        }
-      });
-    }
-
-    function moveStars() {
-      stars.forEach(star => {
-        star.z -= 2;
-        if (star.z <= 0) {
-          star.z = canvas.width;
-          star.x = (Math.random() - 0.5) * canvas.width;
-          star.y = (Math.random() - 0.5) * canvas.height;
-        }
-      });
-    }
-
-    function animate() {
-      moveStars();
-      drawStars();
-      requestAnimationFrame(animate);
-    }
-
-    function scrollToFeatures() {
-      const section = document.getElementById("features");
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    window.addEventListener('resize', () => {
-      resizeCanvas();
-      initStars();
-    });
-
-    resizeCanvas();
-    initStars();
-    animate();
-  </script>
 </body>
 </html>
